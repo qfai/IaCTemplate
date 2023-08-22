@@ -1,0 +1,33 @@
+name: Import Azure Resource
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+    paths:
+      - ".azure/aztfexport_stack.json"
+      - ".azure/aztfexport.sh"
+      - ".azure/backend.template"
+
+jobs:
+  aztfexport:
+    name: aztfexport
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Setup Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version: '>=1.19.0'
+      - name: Execute aztfexport.sh
+        run: chmod +x "./.azure/aztfexport.sh" && ./.azure/aztfexport.sh
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Imported resources from Azure

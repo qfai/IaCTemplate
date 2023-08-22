@@ -1,0 +1,24 @@
+name: Scale stacks
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+    paths:
+      - ".azure/scale_stacks.json"
+      - ".azure/scale.sh"
+
+jobs:
+  scale:
+    name: scale
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Execute scale.sh
+        run: chmod +x "./.azure/scale.sh" && ./.azure/scale.sh
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Scaled stacks
