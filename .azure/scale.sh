@@ -1,16 +1,17 @@
 set -e
 set -x
 
-from=$(cat ".azure/scale_stacks.json" | jq -c '.from')
-replaces=()
-fromStage=$(echo $from | jq -r .stage)
-fromName=$(echo $from | jq -r .name)
-srcPath="./$fromStage/$fromName"
-while read replace; do
-    replaces+=($replace)
-done < <(echo $from | jq -r .replaces[])
+while read replica; do
+    from=$(echo $replica | jq -c '.from')
+    replaces=()
+    fromStage=$(echo $from | jq -r .stage)
+    fromName=$(echo $from | jq -r .name)
+    srcPath="./$fromStage/$fromName"
+    while read replace; do
+        replaces+=($replace)
+    done < <(echo $from | jq -r .replaces[])
 
-while read stack; do
+    stack=$(echo $replica | jq -c '.to')
     name=$(echo "$stack" | jq -r .name)
     stage=$(echo "$stack" | jq -r .stage)
 
@@ -24,15 +25,15 @@ while read stack; do
 
     pushd $destPath
     length=${#replaces[@]}
-    for file in *.tf; do
-        for (( i=0; i<${length}; i++ )); do
+    for file in *; do
+        for ((i = 0; i < ${length}; i++)); do
             value=$(echo "$stack" | jq -r .replaces[$i])
             sed -i "s/${replaces[$i]}/$value/g" $file
         done
     done
 
-    popd 
+    popd
 
-done < <(cat ".azure/scale_stacks.json" | jq -c '.to[]')
+done < <(cat ".azure/scale_stacks.json" | jq -c '.[]')
 
 rm .azure/scale_stacks.json
