@@ -7,8 +7,6 @@ on:
       - "!main"
     paths:
       - ".azure/aztfexport_stack.json"
-      - ".azure/aztfexport.sh"
-      - ".azure/backend.template"
 
 jobs:
   aztfexport:

@@ -7,7 +7,6 @@ on:
       - "!main"
     paths:
       - ".azure/scale_stacks.json"
-      - ".azure/scale.sh"
 
 jobs:
   scale:
