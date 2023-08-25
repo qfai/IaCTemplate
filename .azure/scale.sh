@@ -21,6 +21,7 @@ while read replica; do
 
     [ ! -e $destPath ] || rm -rf $destPath
 
+    mkdir -p $destPath
     cp -r $srcPath $destPath
 
     pushd $destPath

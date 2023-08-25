@@ -16,7 +16,7 @@ while read stack; do
 
     [ ! -e "./$stage/$name" ] || rm -rf "./$stage/$name"
 
-    mkdir "./$stage/$name"
+    mkdir -p "./$stage/$name"
 
     pushd "./$stage/$name"
 
