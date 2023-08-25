@@ -13,6 +13,8 @@ jobs:
   scale:
     name: scale
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
