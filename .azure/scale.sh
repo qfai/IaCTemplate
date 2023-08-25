@@ -21,7 +21,7 @@ while read replica; do
 
     [ ! -e $destPath ] || rm -rf $destPath
 
-    mkdir -p $destPath
+    mkdir -p "./$stage"
     cp -r $srcPath $destPath
 
     pushd $destPath
