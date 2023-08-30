@@ -4,7 +4,7 @@
 1. Create a repository based on this template
 2. Create or reuse a service principle that have the permission to deploy resources, e.g. contributor of your deploy subscription
 ```
-az ad sp create-for-rbac --name "zilutftest" --role contributor --scopes /subscriptions/b9e38f20-7c9c-4497-a25d-1a0c5eef2108 --sdk-auth
+az ad sp create-for-rbac --name "<Name of your SP>" --role contributor --scopes /subscriptions/<Your Subscription> --sdk-auth
 ```
 3. Adding repository secret in setting, Name: AZURE_CREDENTIALS, sample value:
 ```
